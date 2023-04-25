@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_04_24_200014) do
   create_table "group_users", force: :cascade do |t|
-    t.integer "userId"
+    t.integer "group_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_users_on_group_id"
+    t.index ["user_id"], name: "index_group_users_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -40,6 +43,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_200014) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "group_users", "groups"
+  add_foreign_key "group_users", "users"
   add_foreign_key "messages", "groups"
   add_foreign_key "messages", "users"
 end

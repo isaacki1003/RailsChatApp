@@ -1,0 +1,14 @@
+<h1>Edit User</h1>
+
+<%= form_with(model: @user, url: user_path(id: @user.id), method: :patch) do |form| %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.text_field :image, class: 'form-control' %>
+  </div>
+  <!-- Add other form fields for other attributes as needed -->
+  <%= form.submit 'Update User', class: 'btn btn-primary' %>
+<% end %>
