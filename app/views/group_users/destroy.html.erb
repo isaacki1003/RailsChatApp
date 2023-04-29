@@ -1,0 +1,10 @@
+<h1>Remove User from Group</h1>
+
+<p>Are you sure you want to remove <%= @group_user.user.name %> from <%= @group.name %>?</p>
+
+<%= form_with model: [@group, @group_user], url: group_group_user_path(@group, @group_user), method: :delete do |form| %>
+  <div class="actions">
+    <%= form.submit "Remove User from Group", class: "btn btn-danger" %>
+    <%= link_to "Cancel", group_path(@group), class: "btn btn-secondary" %>
+  </div>
+<% end %>

@@ -1,14 +1,50 @@
-<h1>Edit User</h1>
+<h1><%= current_user.name %></h1>
 
-<%= form_with(model: @user, url: user_path(id: @user.id), method: :patch) do |form| %>
-  <div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control' %>
+<h2>Edit Profile</h2>
+
+<%= form_for(current_user, url: registration_path(current_user)) do |f| %>
+  <% if current_user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% current_user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
   </div>
-  <div class="form-group">
-    <%= form.label :image %>
-    <%= form.text_field :image, class: 'form-control' %>
+
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.email_field :email %>
   </div>
-  <!-- Add other form fields for other attributes as needed -->
-  <%= form.submit 'Update User', class: 'btn btn-primary' %>
+
+  <div class="field">
+    <%= f.label :password %><br>
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_password %> <i>(required to update account)</i><br>
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update', class: 'btn btn-primary' %>
+  </div>
 <% end %>
+
+<br>
+
+<%= link_to 'Back', root_path %>

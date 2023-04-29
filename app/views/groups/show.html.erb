@@ -1,0 +1,13 @@
+<h1><%= @group.name %></h1>
+
+<h2>Group Members</h2>
+
+
+<%= link_to "Edit Group", edit_group_path(@group) %>
+<%= link_to "Delete Group", group_path(@group), method: :delete, data: { confirm: "Are you sure you want to delete this group?" } %>
+
+<h2>Join this Group</h2>
+<%= form_with(url: group_group_users_path(@group), method: :post) do |form| %>
+  <%= form.hidden_field :user_id, value: @user&.id %>
+  <%= form.submit "Join!" %>
+<% end %>

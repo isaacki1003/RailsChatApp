@@ -1,27 +1,38 @@
 class GroupUsersController < ApplicationController
-    # GET /groups/:group_id/group_users
     def index
-        @group = Group.find(params[:group_id])
-        @group_users = @group.group_users
-        # Render view or return JSON as needed
+      @group = Group.find(params[:group_id])
+      @group_users = @group.group_users
     end
 
-    # POST /groups/:group_id/group_users
     def create
-        @group = Group.find(params[:group_id])
-        @user = User.find(params[:user_id])
-        @group_user = GroupUser.new(group: @group, user: @user)
-        if @group_user.save
-        # Handle successful creation, e.g., redirect or return JSON
-        else
-        # Handle validation errors or other failures
-        end
+      @group = Group.find(params[:group_id])
+      @user = User.find(params[:user_id])
+      @group_user = GroupUser.new(group_id: @group.id, user_id: @user.id)
+
+      if @group_user.save
+        redirect_to @group, notice: "User added to group successfully."
+      else
+        flash.now[:alert] = "Error adding user to group."
+        render :new
+      end
     end
 
-    # DELETE /groups/:group_id/group_users/:id
+
+
     def destroy
-        @group_user = GroupUser.find(params[:id])
-        @group_user.destroy
-        # Handle successful deletion, e.g., redirect or return JSON
+      @group_user = GroupUser.find(params[:id])
+      @group = @group_user.group
+
+      if @group_user.destroy
+        redirect_to group_group_users_path(@group), notice: "Group user was successfully removed."
+      else
+        redirect_to group_group_users_path(@group), alert: "Unable to remove group user."
+      end
     end
-end
+
+    private
+
+    def group_user_params
+      params.require(:group_user).permit(:user_id)
+    end
+  end
